@@ -1,0 +1,357 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.6",
+  "serialNumber": "urn:uuid:2b9d4c17-6e08-4f3a-9c21-7d5e8a0f4b62",
+  "version": 2,
+  "metadata": {
+    "timestamp": "2026-09-12T00:00:00Z",
+    "lifecycles": [
+      {
+        "phase": "build"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "passonce-selfhost@0.1.0",
+      "name": "PassOnce",
+      "version": "0.1.0",
+      "description": "Self-hosted Zero-Knowledge One-Time-Secret-Sharing (Node mit eingebautem SQLite, keine npm-Abhaengigkeiten)",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "copyright": "Copyright 2026 Steven Mai (integrisec)",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://passonce.de"
+        },
+        {
+          "type": "vcs",
+          "url": "https://github.com/integrisec-de/passonce"
+        }
+      ],
+      "properties": [
+        {
+          "name": "sbom:scope",
+          "value": "Nur die selbst betriebene Variante (Auszug). Inhalte von passonce.de und die Cloudflare-Betriebsvariante sind NICHT enthalten."
+        },
+        {
+          "name": "sbom:bundled-third-party-components",
+          "value": "0"
+        },
+        {
+          "name": "sbom:external-runtime-requests",
+          "value": "keine - die Oberflaeche laedt nichts von Dritten"
+        },
+        {
+          "name": "sbom:line-endings",
+          "value": "LF, per .gitattributes erzwungen - Voraussetzung dafuer, dass die Hashes im Arbeitsbaum stimmen"
+        }
+      ],
+      "components": [
+        {
+          "type": "file",
+          "bom-ref": "file:.env.example",
+          "name": ".env.example",
+          "hashes": [
+            {
+              "alg": "SHA-256",
+              "content": "b352757f6345c85ab7e1aac274ae3ed9d7a69106d2c5a4928da4e9aa412f66c9"
+            }
+          ]
+        },
+        {
+          "type": "file",
+          "bom-ref": "file:.gitattributes",
+          "name": ".gitattributes",
+          "hashes": [
+            {
+              "alg": "SHA-256",
+              "content": "3c7aedcea5ee87598b4ca7f178394158770320c186c8a45cf799fdeebafb3dcd"
+            }
+          ]
+        },
+        {
+          "type": "file",
+          "bom-ref": "file:.gitignore",
+          "name": ".gitignore",
+          "hashes": [
+            {
+              "alg": "SHA-256",
+              "content": "e8d6baf2633eca211f9f1aa867b8ea4d24acdc9806d8b2490f5122a22b259778"
+            }
+          ]
+        },
+        {
+          "type": "file",
+          "bom-ref": "file:Caddyfile",
+          "name": "Caddyfile",
+          "hashes": [
+            {
+              "alg": "SHA-256",
+              "content": "b86aeee1b02cc630f7deb44825a49f1904f6f0c730947d2c14add5ec8f7c04a6"
+            }
+          ]
+        },
+        {
+          "type": "file",
+          "bom-ref": "file:Dockerfile",
+          "name": "Dockerfile",
+          "hashes": [
+            {
+              "alg": "SHA-256",
+              "content": "d30283bc90925d3c5e36ed8a7b1e2e7dac3b5a504c96d9d19686724c19643096"
+            }
+          ]
+        },
+        {
+          "type": "file",
+          "bom-ref": "file:NOTICE",
+          "name": "NOTICE",
+          "hashes": [
+            {
+              "alg": "SHA-256",
+              "content": "670a6e725939a4f110a054688c6e05d68735dfb6229e8b4f4878889745b088f2"
+            }
+          ]
+        },
+        {
+          "type": "file",
+          "bom-ref": "file:README.md",
+          "name": "README.md",
+          "hashes": [
+            {
+              "alg": "SHA-256",
+              "content": "fa03f1e6aedb74325521e35c6b52cc2fdf4fb42e46820da091bb4fbcc9f156c0"
+            }
+          ]
+        },
+        {
+          "type": "file",
+          "bom-ref": "file:SECURITY.md",
+          "name": "SECURITY.md",
+          "hashes": [
+            {
+              "alg": "SHA-256",
+              "content": "d89de152e66c03b10163bc049bc70a8941b43afc1ee7b6f05604f8cdebda0793"
+            }
+          ]
+        },
+        {
+          "type": "file",
+          "bom-ref": "file:docker-compose.yml",
+          "name": "docker-compose.yml",
+          "hashes": [
+            {
+              "alg": "SHA-256",
+              "content": "9aa060b45f26ffa4bfa688defae6402ac13a15559a7edc3abad8e8a461ebffac"
+            }
+          ]
+        },
+        {
+          "type": "file",
+          "bom-ref": "file:package.json",
+          "name": "package.json",
+          "hashes": [
+            {
+              "alg": "SHA-256",
+              "content": "f49dce261472bfd30a19e4476d6e02cfa64e100a899d8e74819b4a48d690f221"
+            }
+          ]
+        },
+        {
+          "type": "file",
+          "bom-ref": "file:public/index.html",
+          "name": "public/index.html",
+          "hashes": [
+            {
+              "alg": "SHA-256",
+              "content": "928634fce7792bb2a76df5ed0549c1a865e6256821913518573d6700cd6b11d3"
+            }
+          ]
+        },
+        {
+          "type": "file",
+          "bom-ref": "file:public/s/index.html",
+          "name": "public/s/index.html",
+          "hashes": [
+            {
+              "alg": "SHA-256",
+              "content": "1efc77204ffd8fb38049a02eb9a5e3fa2a06840bfe5b3569bb5f026c8a4f3fed"
+            }
+          ]
+        },
+        {
+          "type": "file",
+          "bom-ref": "file:public/secret-tool.js",
+          "name": "public/secret-tool.js",
+          "hashes": [
+            {
+              "alg": "SHA-256",
+              "content": "d8da67e66eaaafd465978256cb608d59e96c8c8bdfec44b1287b2ef74c13edfc"
+            }
+          ]
+        },
+        {
+          "type": "file",
+          "bom-ref": "file:public/style.css",
+          "name": "public/style.css",
+          "hashes": [
+            {
+              "alg": "SHA-256",
+              "content": "ce1cf9ccb245b0b708f427ff4c477f14cd7fc3b5ec70ed66dd585abec6c740b1"
+            }
+          ]
+        },
+        {
+          "type": "file",
+          "bom-ref": "file:schema.sql",
+          "name": "schema.sql",
+          "hashes": [
+            {
+              "alg": "SHA-256",
+              "content": "f3573120edc5387d8bf691cfaaee9a21498c5b745003ed3acc5a4a3dbc0b276f"
+            }
+          ]
+        },
+        {
+          "type": "file",
+          "bom-ref": "file:server.js",
+          "name": "server.js",
+          "hashes": [
+            {
+              "alg": "SHA-256",
+              "content": "ad999e32fca7fb770f8c19ac10fa34bde90a9dcd77ac4e3fdeec519cf08cbfff"
+            }
+          ]
+        },
+        {
+          "type": "file",
+          "bom-ref": "file:setup.sh",
+          "name": "setup.sh",
+          "hashes": [
+            {
+              "alg": "SHA-256",
+              "content": "7a91344bb43c71e00cc119bc91579c8e03bf3d9b8c34ebfe8fd8354315218d42"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "components": [
+    {
+      "type": "platform",
+      "bom-ref": "nodejs",
+      "name": "Node.js",
+      "version": ">=22.13",
+      "description": "Laufzeit. Nur Builtins: node:http, node:fs, node:path, node:crypto, node:sqlite. Ab 22.13 ohne --experimental-sqlite nutzbar.",
+      "purl": "pkg:generic/nodejs",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "scope": "required",
+      "properties": [
+        {
+          "name": "sbom:shipped",
+          "value": "nein - vom Betreiber bereitgestellt"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "sqlite",
+      "name": "SQLite",
+      "description": "In Node.js eingebettet, genutzt ueber node:sqlite (DatabaseSync). Kein separates Paket.",
+      "purl": "pkg:generic/sqlite",
+      "licenses": [
+        {
+          "license": {
+            "name": "Public Domain (blessing)"
+          }
+        }
+      ],
+      "scope": "required",
+      "properties": [
+        {
+          "name": "sbom:shipped",
+          "value": "nein - Bestandteil von Node.js"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "bom-ref": "node-24-alpine",
+      "name": "node",
+      "version": "24-alpine",
+      "description": "Basis-Image laut Dockerfile.",
+      "purl": "pkg:docker/library/node@24-alpine",
+      "licenses": [
+        {
+          "expression": "MIT AND Apache-2.0 AND BSD-2-Clause AND BSD-3-Clause AND ISC"
+        }
+      ],
+      "scope": "optional",
+      "properties": [
+        {
+          "name": "sbom:note",
+          "value": "Aggregat-Image; Distro-Pakete nicht einzeln aufgeloest. Fuer eine Image-SBOM den gebauten Container scannen."
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "bom-ref": "caddy-2-alpine",
+      "name": "caddy",
+      "version": "2-alpine",
+      "description": "Optionaler Reverse-Proxy mit automatischem HTTPS laut docker-compose.yml.",
+      "purl": "pkg:docker/library/caddy@2-alpine",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "scope": "optional"
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "passonce-selfhost@0.1.0",
+      "dependsOn": [
+        "nodejs",
+        "node-24-alpine",
+        "caddy-2-alpine"
+      ]
+    },
+    {
+      "ref": "nodejs",
+      "dependsOn": [
+        "sqlite"
+      ]
+    },
+    {
+      "ref": "node-24-alpine",
+      "dependsOn": [
+        "nodejs"
+      ]
+    },
+    {
+      "ref": "caddy-2-alpine",
+      "dependsOn": []
+    },
+    {
+      "ref": "sqlite",
+      "dependsOn": []
+    }
+  ]
+}

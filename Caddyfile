@@ -1,0 +1,20 @@
+# Caddy reicht alles an die App weiter und holt fuer eine echte Domain
+# automatisch ein HTTPS-Zertifikat (Let's Encrypt) inkl. Renewal.
+# SITE_ADDRESS kommt aus der .env (z.B. secret.example.com oder :80 zum Testen).
+{$SITE_ADDRESS} {
+	encode gzip
+	reverse_proxy app:8080
+	header Strict-Transport-Security "max-age=31536000; includeSubDomains"
+}
+
+# ── Internes Netz ohne oeffentliches DNS (kein Let's Encrypt moeglich)? ──
+# Obigen Block ersetzen durch eine eigene lokale CA von Caddy ...
+#   :443 {
+#       tls internal
+#       reverse_proxy app:8080
+#   }
+# ... oder ein selbst mitgebrachtes Zertifikat:
+#   secret.intern.local {
+#       tls /etc/caddy/cert.pem /etc/caddy/key.pem
+#       reverse_proxy app:8080
+#   }

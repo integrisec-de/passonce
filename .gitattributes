@@ -1,0 +1,31 @@
+# Zeilenenden: LF im Repository UND im Arbeitsbaum.
+#
+# Warum explizit statt nur "text=auto": Die mitgelieferte sbom.cdx.json fuehrt
+# SHA-256-Summen ueber die Dateien dieses Verzeichnisses. Ein Arbeitsbaum mit
+# CRLF wuerde jede dieser Summen ungueltig machen, ohne dass es auffaellt.
+* text=auto eol=lf
+
+# Alle Dateitypen, die in der SBOM gehasht werden - namentlich, damit die
+# Autoerkennung gar nicht erst zum Zuge kommt.
+*.md            text eol=lf
+*.json          text eol=lf
+*.js            text eol=lf
+*.css           text eol=lf
+*.html          text eol=lf
+*.sql           text eol=lf
+*.yml           text eol=lf
+*.yaml          text eol=lf
+*.sh            text eol=lf
+*.example       text eol=lf
+Dockerfile      text eol=lf
+Caddyfile       text eol=lf
+LICENSE         text eol=lf
+NOTICE          text eol=lf
+.gitignore      text eol=lf
+.gitattributes  text eol=lf
+
+# Binaerdateien niemals anfassen (derzeit keine im Auszug, aber als Leitplanke)
+*.woff2 binary
+*.png   binary
+*.jpg   binary
+*.ico   binary

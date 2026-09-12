@@ -1,0 +1,59 @@
+PassOnce
+Copyright 2026 Steven Mai (integrisec)
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+================================================================================
+
+UMFANG DIESER VERÖFFENTLICHUNG
+
+Die Lizenz gilt für die Software in diesem Verzeichnis — den Server
+(server.js), das SQLite-Schema, die clientseitige Zero-Knowledge-Krypto
+(public/secret-tool.js), die Oberfläche sowie die Betriebsdateien
+(Dockerfile, docker-compose.yml, Caddyfile, setup.sh).
+
+Diese Veröffentlichung ist ein Auszug, kein Abbild des Entwicklungs-
+Repositorys. Nicht Bestandteil der Veröffentlichung und nicht von dieser
+Lizenz umfasst sind:
+
+  * die Inhalte des gehosteten Dienstes passonce.de — Landing- und
+    Marketingtexte, SEO-Inhalte, Ratgeber, Grafiken und Open-Graph-Bilder
+    sowie Impressum und Datenschutzerklärung;
+  * die Cloudflare-spezifische Betriebsvariante (Pages Functions,
+    D1-Anbindung), mit der der Dienst auf passonce.de betrieben wird.
+
+Für diese Bestandteile bleiben alle Rechte vorbehalten.
+
+MARKEN
+
+"PassOnce" und "integrisec" sowie die zugehörigen Wort- und Bildmarken
+werden gemäß Abschnitt 6 der Apache License 2.0 nicht mitlizenziert. Die
+Software darf unter eigenem Namen betrieben, verändert und weitergegeben
+werden; die Verwendung dieser Marken zur Kennzeichnung eigener Angebote ist
+davon nicht gedeckt.
+
+DRITTKOMPONENTEN
+
+Keine. Diese Software enthält keinen Fremdcode und liefert keine Assets
+Dritter mit — keine Bibliotheken, keine Schriften, keine npm-Abhängigkeiten.
+Die Oberfläche nutzt ausschließlich Schriften, die auf dem System des
+Betrachters vorhanden sind.
+
+Zur Laufzeit werden benötigt, aber nicht mitgeliefert:
+
+  * Node.js ab Version 22 (MIT) einschließlich des eingebauten SQLite
+    (node:sqlite; SQLite ist gemeinfrei)
+  * optional Caddy (Apache-2.0) als Reverse-Proxy mit automatischem HTTPS
+
+Beide werden vom Betreiber bereitgestellt und unterliegen ihren eigenen
+Lizenzbedingungen.

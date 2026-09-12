@@ -1,0 +1,102 @@
+/* Secret (self-hosted) — eigenstaendiges, white-label Stylesheet.
+   Branding anpassen: Farben unter :root + Wortmarke im <header> der HTML-Dateien. */
+
+:root {
+  --bg:        #f4f7fb;
+  --card:      #ffffff;
+  --navy:      #0e1e3d;
+  --blue:      #1a4fd6;
+  --blue-dk:   #1640b0;
+  --blue-lt:   #e8effc;
+  --text:      #18243a;
+  --muted:     #5e738a;
+  --border:    #dde4f0;
+  --font:      system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --mono:      ui-monospace, 'SF Mono', 'Cascadia Code', Consolas, monospace;
+  --sh:        0 2px 8px rgba(14,30,61,.07), 0 12px 32px rgba(14,30,61,.06);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-header {
+  background: var(--navy);
+  color: #fff;
+  padding: 18px 24px;
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.app-header .brand { font-size: 20px; font-weight: 700; letter-spacing: -.3px; }
+.app-header .brand span { color: #6ee7c7; }
+.app-header .brand-sub { font-size: 12.5px; color: rgba(255,255,255,.55); letter-spacing: .04em; }
+
+.app-main { flex: 1; width: 100%; max-width: 640px; margin: 0 auto; padding: 40px 20px 56px; }
+.app-footer { text-align: center; color: var(--muted); font-size: 12.5px; padding: 22px; }
+
+.tool-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; box-shadow: var(--sh); padding: 30px; }
+.tool-card + .tool-card { margin-top: 20px; }
+@media (max-width: 600px) { .tool-card { padding: 20px; } .app-main { padding: 28px 14px 44px; } }
+
+.tool-field { margin-bottom: 20px; }
+.tool-field label { display: block; font-weight: 600; font-size: 14px; margin-bottom: 8px; }
+.tool-field .opt { font-weight: 400; color: var(--muted); }
+.hint { font-size: 12.5px; color: var(--muted); margin-top: 6px; line-height: 1.5; }
+.hint.center { text-align: center; margin-top: 18px; }
+.hint.center a, .tool-secret-out a { color: var(--blue); }
+
+.tool-input, .tool-textarea, .tool-select {
+  width: 100%; font-family: var(--font); font-size: 15px; color: var(--text);
+  background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+  padding: 12px 14px; transition: border-color .15s, box-shadow .15s;
+}
+.tool-textarea { min-height: 150px; resize: vertical; font-family: var(--mono); font-size: 14px; line-height: 1.6; }
+.tool-input:focus, .tool-textarea:focus, .tool-select:focus {
+  outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px var(--blue-lt);
+}
+
+.tool-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%;
+  font-family: var(--font); font-weight: 600; font-size: 15.5px; color: #fff;
+  background: var(--blue); border: none; border-radius: 10px; padding: 14px 22px; cursor: pointer;
+  transition: background .15s, transform .1s;
+}
+.tool-btn:hover { background: var(--blue-dk); }
+.tool-btn:active { transform: translateY(1px); }
+.tool-btn:disabled { opacity: .6; cursor: not-allowed; }
+.tool-btn-secondary { width: auto; color: var(--blue); background: var(--blue-lt); padding: 10px 18px; font-size: 14px; }
+.tool-btn-secondary:hover { background: #d8e4fb; }
+
+.tool-meta-row { display: flex; gap: 16px; flex-wrap: wrap; }
+.tool-meta-row .tool-field { flex: 1; min-width: 180px; }
+
+.tool-note { display: flex; gap: 10px; font-size: 13.5px; line-height: 1.55; border-radius: 10px; padding: 13px 15px; margin-bottom: 20px; }
+.tool-note .ico { flex: 0 0 auto; }
+.tool-note-info { background: var(--blue-lt); color: #14306e; }
+.tool-note-warn { background: #fff6e6; color: #8a5a00; border: 1px solid #ffe2ad; }
+
+.tool-error { background: #fdecec; color: #a11212; border: 1px solid #f6c9c9; border-radius: 10px; padding: 12px 15px; font-size: 14px; margin-bottom: 18px; }
+
+.tool-link-row { display: flex; gap: 8px; margin: 8px 0 4px; }
+.tool-link-row .tool-input { font-family: var(--mono); font-size: 13px; background: var(--bg); }
+@media (max-width: 540px) { .tool-link-row { flex-direction: column; } .tool-btn-secondary { width: 100%; } }
+.tool-expiry { font-size: 13px; color: var(--muted); margin-top: 10px; }
+
+.tool-secret-out {
+  white-space: pre-wrap; word-break: break-word; font-family: var(--mono); font-size: 14.5px; line-height: 1.6;
+  background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 16px; max-height: 320px; overflow: auto;
+}
+
+.st-msg { text-align: center; font-size: 15px; color: var(--muted); padding: 26px 0; }
+.st-error { color: #a11212; }

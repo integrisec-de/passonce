@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="/style.css">
+<title>PassOnce · Sicher teilen</title>
+</head>
+<body>
+<header class="app-header">
+  <div class="brand">🔒 Pass<span>Once</span></div>
+  <div class="brand-sub">Zero-Knowledge · selbstzerstörend</div>
+</header>
+
+<main class="app-main">
+  <div class="tool-card" id="form-card">
+    <div class="tool-note tool-note-info">
+      <span class="ico">🔒</span>
+      <span><strong>Ende-zu-Ende verschlüsselt:</strong> Ihr Text wird lokal im Browser mit AES-256 verschlüsselt. Der Schlüssel steht nur im Link (hinter dem <code>#</code>) und erreicht den Server nie.</span>
+    </div>
+    <form id="create-form" novalidate>
+      <div class="tool-field">
+        <label for="secret">Ihr Geheimnis</label>
+        <textarea id="secret" class="tool-textarea" maxlength="50000" placeholder="Passwort, Zugangsdaten, vertrauliche Notiz …" autocomplete="off" spellcheck="false"></textarea>
+      </div>
+      <div class="tool-meta-row">
+        <div class="tool-field">
+          <label for="passphrase">Zusätzliches Passwort <span class="opt">(optional)</span></label>
+          <input type="password" id="passphrase" class="tool-input" autocomplete="new-password" placeholder="über separaten Kanal teilen">
+        </div>
+        <div class="tool-field">
+          <label for="ttl">Gültig für</label>
+          <select id="ttl" class="tool-select">
+            <option value="3600">1 Stunde</option>
+            <option value="86400" selected>1 Tag</option>
+            <option value="259200">3 Tage</option>
+            <option value="604800">7 Tage</option>
+          </select>
+        </div>
+      </div>
+      <div class="tool-error" id="create-error" hidden></div>
+      <button type="submit" class="tool-btn" id="create-btn">Sicheren Link erstellen</button>
+    </form>
+  </div>
+
+  <div class="tool-card" id="result-card" hidden>
+    <div class="tool-note tool-note-warn">
+      <span class="ico">⚠️</span>
+      <span><strong>Einmal abrufbar.</strong> Dieser Link zeigt das Geheimnis genau ein Mal und löscht es danach unwiderruflich.</span>
+    </div>
+    <div class="tool-field">
+      <label for="result-link">Ihr Einmal-Link</label>
+      <div class="tool-link-row">
+        <input type="text" id="result-link" class="tool-input" readonly>
+        <button type="button" class="tool-btn tool-btn-secondary" id="copy-btn">Kopieren</button>
+      </div>
+      <div class="tool-expiry">Gültig bis: <span id="result-expiry"></span></div>
+    </div>
+    <button type="button" class="tool-btn" id="new-btn">Weiteres Geheimnis teilen</button>
+  </div>
+</main>
+
+<footer class="app-footer">Self-hosted · Zero-Knowledge Secret Sharing</footer>
+
+<script src="/secret-tool.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const C = window.PassOnceCrypto, $ = (id) => document.getElementById(id);
+  const form = $('create-form'), secretEl = $('secret'), passEl = $('passphrase'), ttlEl = $('ttl'),
+        btn = $('create-btn'), errEl = $('create-error'), formCard = $('form-card'), resultCard = $('result-card'),
+        linkEl = $('result-link'), expiryEl = $('result-expiry'), copyBtn = $('copy-btn'), newBtn = $('new-btn');
+  const showError = (m) => { errEl.textContent = m; errEl.hidden = false; };
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault(); errEl.hidden = true;
+    if (!secretEl.value.trim()) { showError('Bitte ein Geheimnis eingeben.'); return; }
+    btn.disabled = true; btn.textContent = 'Wird verschlüsselt …';
+    try {
+      const { K, payload } = await C.encryptSecret(secretEl.value, passEl.value || '');
+      const res = await fetch('/api/secrets', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ ...payload, ttl: Number(ttlEl.value) }) });
+      if (!res.ok) {
+        if (res.status === 413) throw new Error('Das Geheimnis ist zu groß.');
+        if (res.status === 429) throw new Error('Zu viele Anfragen. Bitte kurz warten.');
+        throw new Error('Erstellen fehlgeschlagen. Bitte erneut versuchen.');
+      }
+      const { id, expires_at } = await res.json();
+      linkEl.value = `${location.origin}/s/#${id}.${C.bytesToB64url(K)}`;
+      expiryEl.textContent = new Date(expires_at * 1000).toLocaleString('de-DE');
+      secretEl.value = ''; passEl.value = ''; formCard.hidden = true; resultCard.hidden = false;
+    } catch (err) { showError(err.message || 'Fehler.'); }
+    finally { btn.disabled = false; btn.textContent = 'Sicheren Link erstellen'; }
+  });
+
+  copyBtn.addEventListener('click', async () => {
+    try { await navigator.clipboard.writeText(linkEl.value); copyBtn.textContent = '✓ Kopiert'; setTimeout(() => { copyBtn.textContent = 'Kopieren'; }, 2000); }
+    catch (_) { linkEl.focus(); linkEl.select(); }
+  });
+  newBtn.addEventListener('click', () => { resultCard.hidden = true; formCard.hidden = false; });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="/style.css">
+<title>Geheimnis anzeigen · PassOnce</title>
+</head>
+<body>
+<header class="app-header">
+  <div class="brand">🔒 Pass<span>Once</span></div>
+  <div class="brand-sub">Einmal abrufbar</div>
+</header>
+
+<main class="app-main">
+  <div class="st-msg" id="status">Link wird geprüft …</div>
+
+  <div class="tool-card" id="reveal-card" hidden>
+    <div class="tool-note tool-note-warn">
+      <span class="ico">⚠️</span>
+      <span><strong>Nur einmal abrufbar.</strong> Beim Klick wird das Geheimnis entschlüsselt angezeigt und sofort vom Server gelöscht.</span>
+    </div>
+    <div class="tool-field" id="pass-wrap" hidden>
+      <label for="reveal-pass">Passwort</label>
+      <input type="password" id="reveal-pass" class="tool-input" autocomplete="off" placeholder="Vom Absender erhaltenes Passwort">
+    </div>
+    <div class="tool-error" id="reveal-error" hidden></div>
+    <button type="button" class="tool-btn" id="reveal-btn">Geheimnis anzeigen</button>
+  </div>
+
+  <div class="tool-card" id="reveal-result" hidden>
+    <div class="tool-note tool-note-info">
+      <span class="ico">✅</span>
+      <span>Dieses Geheimnis wurde jetzt <strong>gelöscht</strong>. Das ist Ihre einzige Gelegenheit, es zu sichern.</span>
+    </div>
+    <div class="tool-field">
+      <label>Entschlüsseltes Geheimnis</label>
+      <div class="tool-secret-out" id="secret-out"></div>
+    </div>
+    <button type="button" class="tool-btn tool-btn-secondary" id="copy-secret" style="width:100%;">Kopieren</button>
+    <p class="hint center"><a href="/">Selbst ein Geheimnis teilen →</a></p>
+  </div>
+</main>
+
+<footer class="app-footer">Self-hosted · Zero-Knowledge Secret Sharing</footer>
+
+<script src="/secret-tool.js"></script>
+<script>
+// Zweiter Einmal-Link im selben Tab: Ein Wechsel nur im Fragment (#...) laedt
+// die Seite nicht neu - ohne diesen Handler bliebe der Zustand des vorigen
+// Geheimnisses stehen, im schlimmsten Fall "bereits abgerufen" fuer einen
+// gueltigen Link. Nach erfolgreichem Abruf ist das Fragment bereits per
+// replaceState entfernt, ein Reload verwirft hier also nichts Sichtbares.
+window.addEventListener('hashchange', () => location.reload());
+
+document.addEventListener('DOMContentLoaded', async () => {
+  const C = window.PassOnceCrypto, $ = (id) => document.getElementById(id);
+  const statusEl = $('status'), revealCard = $('reveal-card'), passWrap = $('pass-wrap'), passEl = $('reveal-pass'),
+        revealBtn = $('reveal-btn'), errEl = $('reveal-error'), resultWrap = $('reveal-result'), secretOut = $('secret-out'), copyBtn = $('copy-secret');
+  const fail = (m) => { statusEl.hidden = false; statusEl.textContent = m; statusEl.className = 'st-msg st-error'; revealCard.hidden = true; };
+  const showError = (m) => { errEl.textContent = m; errEl.hidden = false; };
+
+  const frag = location.hash.replace(/^#/, ''), dot = frag.indexOf('.');
+  if (!frag || dot < 1) { fail('Ungültiger oder unvollständiger Link.'); return; }
+  const id = frag.slice(0, dot);
+  let K;
+  try { K = C.b64urlToBytes(frag.slice(dot + 1)); } catch (_) { fail('Ungültiger Link.'); return; }
+  if (K.length !== 32) { fail('Ungültiger Link.'); return; }
+
+  let meta;
+  try { meta = await (await fetch(`/api/secrets/${encodeURIComponent(id)}/meta`)).json(); }
+  catch (_) { fail('Verbindungsfehler. Bitte später erneut versuchen.'); return; }
+  if (!meta.exists) { fail('Dieses Geheimnis existiert nicht (mehr) oder ist abgelaufen. Einmal-Links lassen sich nur ein einziges Mal öffnen.'); return; }
+
+  const needsPass = !!meta.needs_passphrase, salt = meta.salt || null;
+  passWrap.hidden = !needsPass; statusEl.hidden = true; revealCard.hidden = false;
+
+  revealBtn.addEventListener('click', async () => {
+    errEl.hidden = true;
+    const passphrase = needsPass ? (passEl.value || '') : '';
+    if (needsPass && !passphrase) { showError('Bitte das Passwort eingeben.'); return; }
+    revealBtn.disabled = true; revealBtn.textContent = 'Wird entschlüsselt …';
+    try {
+      const verifier = needsPass ? await C.verifierFor(K, passphrase, salt) : null;
+      const r = await fetch(`/api/secrets/${encodeURIComponent(id)}/reveal`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(verifier ? { verifier } : {}) });
+      if (r.status === 403) { showError('Falsches Passwort. Bitte erneut versuchen.'); revealBtn.disabled = false; revealBtn.textContent = 'Geheimnis anzeigen'; return; }
+      if (r.status === 404) { fail('Dieses Geheimnis wurde bereits abgerufen oder ist abgelaufen.'); return; }
+      if (!r.ok) throw new Error('Abruf fehlgeschlagen.');
+      const data = await r.json();
+      secretOut.textContent = await C.decryptSecret(data, K, passphrase, salt);
+      try { history.replaceState(null, '', location.pathname); } catch (_) {}
+      revealCard.hidden = true; resultWrap.hidden = false;
+    } catch (_) {
+      showError('Entschlüsselung fehlgeschlagen. Der Link ist möglicherweise beschädigt.');
+      revealBtn.disabled = false; revealBtn.textContent = 'Geheimnis anzeigen';
+    }
+  });
+
+  copyBtn.addEventListener('click', async () => {
+    try { await navigator.clipboard.writeText(secretOut.textContent); copyBtn.textContent = '✓ Kopiert'; setTimeout(() => { copyBtn.textContent = 'Kopieren'; }, 2000); } catch (_) {}
+  });
+});
+</script>
+</body>
+</html>

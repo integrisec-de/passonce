@@ -1,0 +1,12 @@
+# Konfiguration mit Geheimnissen — wird von setup.sh erzeugt, gehoert NIE ins Repo
+.env
+
+# Laufzeitdaten: SQLite-Datenbank und Volumes
+*.db
+*.db-shm
+*.db-wal
+data/
+
+# Node / System
+node_modules/
+.DS_Store
