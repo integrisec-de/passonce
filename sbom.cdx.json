@@ -12,9 +12,9 @@
     ],
     "component": {
       "type": "application",
-      "bom-ref": "passonce-selfhost@0.1.0",
+      "bom-ref": "passonce-selfhost@1.0.0",
       "name": "PassOnce",
-      "version": "0.1.0",
+      "version": "1.0.0",
       "description": "Self-hosted Zero-Knowledge One-Time-Secret-Sharing (Node mit eingebautem SQLite, keine npm-Abhaengigkeiten)",
       "licenses": [
         {
@@ -170,7 +170,7 @@
           "hashes": [
             {
               "alg": "SHA-256",
-              "content": "f49dce261472bfd30a19e4476d6e02cfa64e100a899d8e74819b4a48d690f221"
+              "content": "f0ac48c1e7bd900e5738749f2828aa1e90f88649c439df6ef152c9dc27023fe5"
             }
           ]
         },
@@ -337,7 +337,7 @@
   ],
   "dependencies": [
     {
-      "ref": "passonce-selfhost@0.1.0",
+      "ref": "passonce-selfhost@1.0.0",
       "dependsOn": [
         "nodejs",
         "node-24-alpine",
