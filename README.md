@@ -16,16 +16,16 @@ npm-Abhängigkeiten**, dank Nodes eingebautem SQLite.
 
 ## Funktionen
 
-- 🔐 **Zero-Knowledge** — Ver-/Entschlüsselung (AES-256-GCM) im Browser; der Schlüssel steht nur im URL-Fragment, der Server speichert ausschließlich Ciphertext.
-- 💣 **Burn-after-read** — der Einmal-Link wird beim Abruf **atomar** gelöscht; ein zweiter Aufruf läuft ins Leere.
-- 🔑 **Optionales Passwort** — zusätzlicher Schutz (PBKDF2 + Verifier); ein falsches Passwort verbrennt das Geheimnis **nicht**.
-- ⏱️ **Ablaufzeit** — 1 Stunde bis 7 Tage (konfigurierbar); nicht abgerufene Geheimnisse löschen sich selbst.
-- 🛡️ **Scanner-sicher** — id + Schlüssel im Fragment, Anzeige erst per Klick → Link-Prefetch durch Mail-/Chat-Scanner verbrennt nichts.
-- 🔌 **Optionale Server-Encrypt-API** — fertige Einmal-Links per Token-Aufruf (`{url}`) fürs eigene, vertrauenswürdige Netz (in diesem Modus kein Zero-Knowledge).
-- 🐳 **Ein Container** — `docker compose up`, keine externe Datenbank, **keine npm-Abhängigkeiten**.
-- 🔒 **Automatisches HTTPS** — via Caddy (Let's Encrypt) oder lokale CA (`tls internal`) für abgeschottete Netze.
-- 🏷️ **White-label** — Wortmarke und Farben in Minuten anpassbar.
-- 🪶 **Schlank & auditierbar** — ein `server.js`, statisches Frontend, kein Build-Schritt.
+- **Zero-Knowledge** — Ver-/Entschlüsselung (AES-256-GCM) im Browser; der Schlüssel steht nur im URL-Fragment, der Server speichert ausschließlich Ciphertext.
+- **Burn-after-read** — der Einmal-Link wird beim Abruf **atomar** gelöscht; ein zweiter Aufruf läuft ins Leere.
+- **Optionales Passwort** — zusätzlicher Schutz (PBKDF2 + Verifier); ein falsches Passwort verbrennt das Geheimnis **nicht**.
+- **Ablaufzeit** — 1 Stunde bis 7 Tage (konfigurierbar); nicht abgerufene Geheimnisse löschen sich selbst.
+- **Scanner-sicher** — id + Schlüssel im Fragment, Anzeige erst per Klick → Link-Prefetch durch Mail-/Chat-Scanner verbrennt nichts.
+- **Optionale Server-Encrypt-API** — fertige Einmal-Links per Token-Aufruf (`{url}`) fürs eigene, vertrauenswürdige Netz (in diesem Modus kein Zero-Knowledge).
+- **Ein Container** — `docker compose up`, keine externe Datenbank, **keine npm-Abhängigkeiten**.
+- **Automatisches HTTPS** — via Caddy (Let's Encrypt) oder lokale CA (`tls internal`) für abgeschottete Netze.
+- **White-label** — Wortmarke und Farben in Minuten anpassbar.
+- **Schlank & auditierbar** — ein `server.js`, statisches Frontend, kein Build-Schritt.
 
 ## Voraussetzungen
 
@@ -149,7 +149,7 @@ WantedBy=multi-user.target
 
 ---
 
-## ⚠️ Sicherheit: HTTPS ist Pflicht
+## Sicherheit: HTTPS ist Pflicht
 
 Zero-Knowledge schützt nur **mit TLS**. Der Schlüssel steht zwar im URL-Fragment
 (geht nie an den Server), aber ohne HTTPS könnte ein Angreifer im Netz die
