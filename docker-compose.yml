@@ -7,7 +7,10 @@ services:
     environment:
       PORT: "8080"
       DB_PATH: /data/secrets.db
+      MIN_TTL: "${MIN_TTL:-300}"
+      DEFAULT_TTL: "${DEFAULT_TTL:-86400}"
       MAX_TTL: "${MAX_TTL:-604800}"
+      RATE_LIMIT_PER_MIN: "${RATE_LIMIT_PER_MIN:-60}"
       ALLOW_SERVER_ENCRYPT: "${ALLOW_SERVER_ENCRYPT:-false}"
       API_TOKEN: "${API_TOKEN:-}"
       BASE_URL: "${BASE_URL:-}"

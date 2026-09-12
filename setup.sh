@@ -131,7 +131,7 @@ else
   warn "Node-Modus liefert reines HTTP auf :${PORT} — unbedingt hinter einen TLS-Reverse-Proxy stellen!"
   echo; info "Starten:"
   echo "    set -a; . ./.env; set +a"
-  echo "    PORT=${PORT} node --experimental-sqlite server.js"
+  echo "    PORT=${PORT} node server.js"
   echo; info "Dauerbetrieb: als systemd-Service einrichten (Beispiel in der README)."
 fi
 

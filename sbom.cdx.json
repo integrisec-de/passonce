@@ -159,7 +159,7 @@
           "hashes": [
             {
               "alg": "SHA-256",
-              "content": "9aa060b45f26ffa4bfa688defae6402ac13a15559a7edc3abad8e8a461ebffac"
+              "content": "268a50d96e198adc6bdcd4b86e688b26c3e0405f407171cf2dd2e4fbaa37ed8c"
             }
           ]
         },
@@ -247,7 +247,7 @@
           "hashes": [
             {
               "alg": "SHA-256",
-              "content": "7a91344bb43c71e00cc119bc91579c8e03bf3d9b8c34ebfe8fd8354315218d42"
+              "content": "631516aecf4590ebb0e554ad7076f957281eada2e3b56df2a97ff7c941a88ee2"
             }
           ]
         }
