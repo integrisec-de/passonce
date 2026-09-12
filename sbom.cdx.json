@@ -77,6 +77,17 @@
         },
         {
           "type": "file",
+          "bom-ref": "file:.github/workflows/shell-lint.yml",
+          "name": ".github/workflows/shell-lint.yml",
+          "hashes": [
+            {
+              "alg": "SHA-256",
+              "content": "3160f97b2060849c67b826a06a06a790f7efe27c0bcf708bad0c3c2e92d70ee1"
+            }
+          ]
+        },
+        {
+          "type": "file",
           "bom-ref": "file:.gitignore",
           "name": ".gitignore",
           "hashes": [
