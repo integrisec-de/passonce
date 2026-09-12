@@ -12,9 +12,9 @@
     ],
     "component": {
       "type": "application",
-      "bom-ref": "passonce-selfhost@1.0.0",
+      "bom-ref": "passonce-selfhost@1.0.1",
       "name": "PassOnce",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "description": "Self-hosted Zero-Knowledge One-Time-Secret-Sharing (Node mit eingebautem SQLite, keine npm-Abhaengigkeiten)",
       "licenses": [
         {
@@ -60,7 +60,7 @@
           "hashes": [
             {
               "alg": "SHA-256",
-              "content": "b352757f6345c85ab7e1aac274ae3ed9d7a69106d2c5a4928da4e9aa412f66c9"
+              "content": "1a1b7bfa4cd8249f6dc29c35017d6fdc18b019ad699c7448250cb2defab99be1"
             }
           ]
         },
@@ -137,7 +137,7 @@
           "hashes": [
             {
               "alg": "SHA-256",
-              "content": "c399e8925e459b44598c1006edf8390d5fa6e02f1c26a9058ebafef305c5faac"
+              "content": "0f112dd663d11584fdc5c2d61383c1d2fc0b4e7028a6f9b16ab8f8dd133b3637"
             }
           ]
         },
@@ -170,7 +170,7 @@
           "hashes": [
             {
               "alg": "SHA-256",
-              "content": "f0ac48c1e7bd900e5738749f2828aa1e90f88649c439df6ef152c9dc27023fe5"
+              "content": "2efdc6b98f2bcd0755bd31c539221e3aae483d0daddab0c22a5874062c5640d1"
             }
           ]
         },
@@ -236,7 +236,7 @@
           "hashes": [
             {
               "alg": "SHA-256",
-              "content": "ad999e32fca7fb770f8c19ac10fa34bde90a9dcd77ac4e3fdeec519cf08cbfff"
+              "content": "3523a42b674bee5a17cfbdd130c4f30f993227de85b6215139ff424dec5b615e"
             }
           ]
         },
@@ -337,7 +337,7 @@
   ],
   "dependencies": [
     {
-      "ref": "passonce-selfhost@1.0.0",
+      "ref": "passonce-selfhost@1.0.1",
       "dependsOn": [
         "nodejs",
         "node-24-alpine",

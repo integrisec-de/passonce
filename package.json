@@ -1,6 +1,6 @@
 {
   "name": "passonce",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "description": "Self-hosted zero-knowledge one-time secret sharing (Node, eingebautes SQLite, keine npm-Abhaengigkeiten)",
   "license": "Apache-2.0",

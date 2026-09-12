@@ -175,8 +175,28 @@ Die Defaults unterscheiden sich teilweise zwischen den beiden Betriebsarten:
 | `MAX_TTL` | `604800` | `604800` | **größte** Lebensdauer in Sekunden (7 Tage). Größere Werte werden stillschweigend gekappt. |
 | `RATE_LIMIT_PER_MIN` | `60` | `60` | Anfragen pro IP/Minute auf `/api/*`; darüber HTTP 429 |
 | `ALLOW_SERVER_ENCRYPT` | `false` | `false` | Server-Encrypt-API aktivieren (s. u.) |
-| `API_TOKEN` | – | – | Token für die Server-Encrypt-API |
-| `BASE_URL` | – | – | Basis-URL für von der API zurückgegebene Links |
+| `API_TOKEN` | – | – | Token für die Server-Encrypt-API — siehe Hinweis unten zum Umgang damit |
+| `BASE_URL` | – | – | Basis-URL für von der API zurückgegebene Links. **Pflicht, sobald `ALLOW_SERVER_ENCRYPT=true`** — sonst verweigert der Dienst den Start. |
+
+### Zum Umgang mit dem `API_TOKEN`
+
+Das Token ist der einzige Schutz der Server-Encrypt-API. Zwei Stellen, an denen
+es sichtbar wird und die man kennen sollte — beides ist kein Defekt, sondern
+Betreiberwissen:
+
+* **`setup.sh` gibt das erzeugte Token einmal auf dem Terminal aus.** Das ist
+  gewollt, Sie brauchen es ja. Es landet damit aber im **Scrollback** Ihrer
+  Sitzung und, falls Sie das Skript unter `tee`, `script` oder in einer
+  CI-Pipeline laufen lassen, in deren **Protokolldatei**. Die erzeugte `.env`
+  selbst wird mit Dateirechten `600` angelegt.
+* **Im Docker-Betrieb steht das Token als Umgebungsvariable im Container.** Es
+  ist damit über `docker inspect` und in `/proc/1/environ` lesbar — für jeden,
+  der Zugriff auf den Docker-Daemon oder den Container hat. Für Compose ist das
+  üblich; enger wird es mit einer `env_file`, die Sie mit `600` selbst verwalten,
+  oder mit Docker Secrets.
+
+Wenn Sie den Verdacht haben, dass das Token in ein Protokoll geraten ist:
+neu erzeugen (`./setup.sh --server-encrypt --force`) und den Dienst neu starten.
 
 ---
 
@@ -225,6 +245,38 @@ curl -s -X POST https://secret.example.com/api/secrets/plain \
 
 Der zurückgegebene Link funktioniert mit derselben Anzeige-Seite und wird beim
 Öffnen einmalig entschlüsselt und gelöscht.
+
+> ### ⚠ In diesem Modus steht der Schlüssel im Antwort-Body
+>
+> Im Zero-Knowledge-Betrieb erreicht der Schlüssel den Server nie — er entsteht
+> im Browser und bleibt im URL-Fragment. **Hier ist das anders:** Der Server
+> erzeugt den Schlüssel selbst und gibt ihn als Teil der URL zurück
+> (`…/s/#<id>.<key>`). Diese URL steht damit im **HTTP-Antwort-Body**.
+>
+> Das ist die Stelle, an der ein Betreiber sein Zero-Knowledge verliert, ohne es
+> zu merken — nicht durch einen Angriff, sondern durch gewöhnliche
+> Betriebspraxis:
+>
+> * **Body-Logging am Reverse-Proxy.** Viele Setups protokollieren
+>   Antwort-Bodies zur Fehlersuche. Wer das aktiviert, schreibt den Schlüssel
+>   jedes erzeugten Geheimnisses ins Log.
+> * **APM- und Tracing-Agenten** erfassen Antwortinhalte oft standardmäßig.
+> * **Terminal-Scrollback und CI-Logs.** Das `curl`-Beispiel oben schreibt den
+>   Link auf die Standardausgabe. In einer Pipeline landet er in deren Protokoll.
+> * **Fehlerbehandlung im aufrufenden Programm.** Eine Zeile
+>   `log.error("Antwort: " + body)` genügt.
+>
+> Wer diesen Modus nutzt, sollte Body-Logging für `/api/secrets/plain`
+> ausdrücklich ausschließen und die Aufrufe nicht in Protokolle schreiben.
+> Im Zweifel: Der Zero-Knowledge-Weg über die Weboberfläche hat dieses Problem
+> nicht.
+>
+> **`BASE_URL` ist in diesem Modus Pflicht.** Ohne den Wert würde die Herkunft
+> des zurückgegebenen Links aus dem Host-Header der Anfrage stammen, also vom
+> Aufrufer bestimmt. Der Dienst **verweigert deshalb den Start**, wenn
+> `ALLOW_SERVER_ENCRYPT=true` gesetzt ist und `BASE_URL` fehlt — sichtbares
+> Scheitern statt stillschweigend falscher Links. `./setup.sh --server-encrypt`
+> trägt den Wert automatisch ein.
 
 ---
 

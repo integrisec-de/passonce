@@ -40,6 +40,19 @@ const ALLOW_SERVER_ENCRYPT = /^(1|true|yes)$/i.test(process.env.ALLOW_SERVER_ENC
 const API_TOKEN = process.env.API_TOKEN || '';
 const BASE_URL = (process.env.BASE_URL || '').replace(/\/+$/, '');
 
+// Server-Encrypt ohne BASE_URL waere still gefaehrlich: Die zurueckgegebene
+// URL wuerde dann aus dem Host-Header des Aufrufers gebaut. Lieber sichtbar
+// scheitern als Links ausliefern, deren Herkunft jemand anderes bestimmt.
+if (ALLOW_SERVER_ENCRYPT && !BASE_URL) {
+  console.error('FEHLER: ALLOW_SERVER_ENCRYPT=true, aber BASE_URL ist nicht gesetzt.');
+  console.error('        Die Server-Encrypt-API gibt fertige Links zurueck. Ohne BASE_URL');
+  console.error('        stammt deren Herkunft aus dem Host-Header der Anfrage, wird also');
+  console.error('        vom Aufrufer bestimmt.');
+  console.error('        Setzen Sie BASE_URL, z. B. BASE_URL=https://secret.example.com');
+  console.error('        (./setup.sh --server-encrypt traegt den Wert automatisch ein).');
+  process.exit(1);
+}
+
 // ── Datenbank ──────────────────────────────────────────────────────────────
 fs.mkdirSync(path.dirname(DB_PATH), { recursive: true });
 const db = new DatabaseSync(DB_PATH);
